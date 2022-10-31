@@ -116,7 +116,7 @@ error simple_rknn::compute(void* tensor,
     error ret = (error)rknn_inputs_set(this->id, this->batchs, inputs);
     if (ret != error::success)
     {
-        printf("rknn_input_set fail! ret=%d\n", ret);
+        spdlog::error("rknn input fail! ret={}", (int)ret);
         return ret;
     }
 
@@ -125,7 +125,7 @@ error simple_rknn::compute(void* tensor,
     ret = (error)rknn_run(this->id, nullptr);
     if (ret != error::success)
     {
-        printf("rknn_run fail! ret=%d\n", ret);
+        spdlog::error("rknn run fail! ret={}", (int)ret);
         return ret;
     }
 
@@ -136,7 +136,7 @@ error simple_rknn::compute(void* tensor,
     ret = (error)rknn_outputs_get(this->id, 1, outputs, NULL);
     if (ret != error::success)
     {
-        printf("rknn_outputs_get fail! ret=%d\n", ret);
+        spdlog::error("rknn output get fail! ret={}", (int)ret);
         return ret;
     }
 
