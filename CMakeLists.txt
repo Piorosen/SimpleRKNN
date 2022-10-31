@@ -16,7 +16,8 @@ endif()
 set(INCLUDE_PATH ${CMAKE_SOURCE_DIR}/include)
 set(MODULE_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/module/include)
 set(MODULE_LIB_PATH ${CMAKE_SOURCE_DIR}/module/lib)
-include_directories(${RKNN_API_PATH} ${MODULE_INCLUDE_PATH})
+
+include_directories(${RKNN_API_PATH} ${RKNN_API_PATH} ${MODULE_INCLUDE_PATH})
 
 # rknn api
 set(RKNN_API_PATH ${MODULE_INCLUDE_PATH}/rknn)
@@ -28,6 +29,11 @@ set(CMAKE_INSTALL_RPATH "lib")
 
 add_library(SimpleRKNN
         lib/SimpleRKNN.cpp
+)
+
+target_include_directories(SimpleRKNN PUBLIC 
+        include
+        ${MODULE_INCLUDE_PATH}
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")

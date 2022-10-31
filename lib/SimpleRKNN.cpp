@@ -1,6 +1,10 @@
-#include <iostream>
+#include <SimpleRKNN/SimpleRKNN.h>
+#include <rknn/rknn_api.h>
 
-int test() { 
-    std::cout << "hello world!";
-    return 0;
+SimpleRKNN::SimpleRKNN(/* args */)
+{
+}
+
+SimpleRKNN::~SimpleRKNN()
+{
 }
