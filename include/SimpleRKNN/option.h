@@ -2,11 +2,27 @@
 #define SIMPLERKNN_LIBRARY_ERROR_IFNO_H
 
 
+typedef uint64_t context;
+
+/*
+    the output information for rknn_outputs_get.
+*/
+typedef struct _output {
+    uint8_t want_float;                                 /* want transfer output data to float */
+    uint8_t is_prealloc;                                /* whether buf is pre-allocated.
+                                                           if TRUE, the following variables need to be set.
+                                                           if FALSE, the following variables do not need to be set. */
+    uint32_t index;                                     /* the output index. */
+    void* buf;                                          /* the output buf for index.
+                                                           when is_prealloc = FALSE and rknn_outputs_release called,
+                                                           this buf pointer will be free and don't use it anymore. */
+    uint32_t size;                                      /* the size of output buf. */
+} output;
+
 
 /*
     Definition of extended flag for rknn_init.
 */
-
 enum class priority_flag : int { 
     /* set high priority context. */
     high = 0,

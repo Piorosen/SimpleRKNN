@@ -2,21 +2,31 @@
 #define SIMPLERKNN_LIBRARY_H
 
 #include <string>
+#include <tuple>
+
 #include <SimpleRKNN/option.h>
 
 class simple_rknn
 {
 private:
-    /* data */
+    context id;
+    unsigned char* model;
+    int model_size;
+
+    int batchs, tensor_size;
 public:
-    simple_rknn();
     // load rknn with init context 
     // intput, output tenosr info
     error load_model(const std::string file);
     
-    // get
+    error compute(void* tensor, 
+                               uint32_t tensor_size, 
+                               tensor_type type = tensor_type::uint8, 
+                               tensor_format layout = tensor_format::nhwc,
+                               uint8_t convert_float = 0,
+                               std::function<void(void*, uint32_t)> callback = nullptr);
 
-    ~simple_rknn();
+    error release(output* output);
     
 };
 
