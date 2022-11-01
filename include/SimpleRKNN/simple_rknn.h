@@ -6,6 +6,7 @@
 
 #include <SimpleRKNN/option.h>  
 
+
 class simple_rknn
 {
 private:
@@ -18,6 +19,8 @@ public:
     // load rknn with init context 
     // intput, output tenosr info
     error load_model(const std::string file);
+
+    info_rknn get_info() const;
     
     error compute(input data);    
 

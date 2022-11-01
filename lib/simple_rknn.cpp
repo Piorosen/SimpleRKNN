@@ -101,7 +101,17 @@ error simple_rknn::load_model(const std::string file) {
 error simple_rknn::compute(input data) 
 { 
     // Set Input Data
-   
-    rknn_queue::instance()->enqueue(data);
+    input i;
+    i.callback;
+    i.tensor;
+    i.layout = data.layout;
+    i.type = data.type;
+    i.convert_float = 0;
+
+    i.id = this->id;
+    i.batchs = this->batchs;
+    i.tensor_size = this->tensor_size;
+
+    rknn_queue::instance()->enqueue(i);
     return error::success;
 }
