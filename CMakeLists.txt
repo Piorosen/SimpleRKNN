@@ -28,7 +28,8 @@ set(RKNN_API_LIB ${MODULE_LIB_PATH}/rknn/${CMAKE_SYSTEM_NAME}/${LIB_ARCH}/librkn
 set(CMAKE_INSTALL_RPATH "lib")
 
 add_library(SimpleRKNN
-        lib/simple_rknn.cpp
+			lib/rknn_queue.cpp
+			lib/simple_rknn.cpp
 )
 
 target_include_directories(SimpleRKNN PUBLIC 

@@ -1,7 +1,7 @@
 #include <spdlog/spdlog.h>
-#include <functional>
 
 #include <SimpleRKNN/simple_rknn.h>
+#include <SimpleRKNN/rknn_queue.h>
 #include <rknn/rknn_api.h>
 
 
@@ -98,49 +98,10 @@ error simple_rknn::load_model(const std::string file) {
     return error::success;
 }
     
-error simple_rknn::compute(void* tensor, 
-                               uint32_t tensor_size, 
-                               tensor_type type, 
-                               tensor_format layout,
-                               uint8_t convert_float,
-                               std::function<void(void*, uint32_t)> callback) 
+error simple_rknn::compute(input data) 
 { 
     // Set Input Data
-    rknn_input inputs[1];
-    memset(inputs, 0, sizeof(inputs));
-    inputs[0].index = 0;
-    inputs[0].type = (rknn_tensor_type)type;
-    inputs[0].size = this->tensor_size;
-    inputs[0].fmt = (rknn_tensor_format)layout;
-    inputs[0].buf = tensor;
-    error ret = (error)rknn_inputs_set(this->id, this->batchs, inputs);
-    if (ret != error::success)
-    {
-        spdlog::error("rknn input fail! ret={}", (int)ret);
-        return ret;
-    }
-
-    // Run
-    // printf("rknn_run\n");
-    ret = (error)rknn_run(this->id, nullptr);
-    if (ret != error::success)
-    {
-        spdlog::error("rknn run fail! ret={}", (int)ret);
-        return ret;
-    }
-
-    // Get Output
-    rknn_output outputs[1];
-    memset(outputs, 0, sizeof(outputs));
-    outputs[0].want_float = 1;
-    ret = (error)rknn_outputs_get(this->id, 1, outputs, NULL);
-    if (ret != error::success)
-    {
-        spdlog::error("rknn output get fail! ret={}", (int)ret);
-        return ret;
-    }
-
-    callback(outputs[0].buf, outputs[0].size);
-    rknn_outputs_release(this->id, 1, outputs);
+   
+    rknn_queue::instance()->enqueue(data);
     return error::success;
 }

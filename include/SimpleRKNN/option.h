@@ -1,8 +1,11 @@
 #ifndef SIMPLERKNN_LIBRARY_ERROR_IFNO_H
 #define SIMPLERKNN_LIBRARY_ERROR_IFNO_H
 
+#include <functional>
 
 typedef uint64_t context;
+
+
 
 /*
     the output information for rknn_outputs_get.
@@ -106,7 +109,18 @@ enum class tensor_format : int  {
     nhwc,                                   /* data format is NHWC. */
 };
 
+typedef struct _input { 
+    context id;
+    void* tensor;
+    uint32_t tensor_size;
+    tensor_type type;
+    tensor_format layout;
+    uint8_t convert_float;
+    int batchs;
 
+    std::function<void(void*, uint32_t)> callback;
+
+} input;
 
 
 #endif // SIMPLERKNN_LIBRARY_ERROR_IFNO_H
