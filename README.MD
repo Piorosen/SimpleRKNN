@@ -4,15 +4,15 @@
 
 ## Requirements
 
-> 1. CMake 3.4 ~
-> 2. make
-> 3. RK3399Pro or Asus Tinker Edge R
+> 1. CMake 3.4 ~<br>
+> 2. make<br>
+> 3. RK3399Pro or Asus Tinker Edge R<br>
 
 ## Build
 
-> $ git clone https://github.com/Piorosen/SimpleRKNN
-> $ cd SimpleRKNN && mkdir build && cd build
-> $ cmake .. && make -j8 && make install
+> $ git clone https://github.com/Piorosen/SimpleRKNN <br>
+> $ cd SimpleRKNN && mkdir build && cd build<br>
+> $ cmake .. && make -j8 && make install<br>
 
 # Example
 
