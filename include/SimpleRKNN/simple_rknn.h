@@ -20,9 +20,10 @@ public:
     // intput, output tenosr info
     error load_model(const std::string file);
 
-    info_rknn get_info() const;
+    // info_rknn get_info() const;
     
-    error compute(input data);    
+    error compute(void* tensor, tensor_format layout, tensor_type type, int convert_float = 0,
+                            std::function<void(void*, uint32_t)> callback = nullptr);
 
 };
 

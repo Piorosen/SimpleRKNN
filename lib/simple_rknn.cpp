@@ -98,16 +98,15 @@ error simple_rknn::load_model(const std::string file) {
     return error::success;
 }
     
-error simple_rknn::compute(input data) 
+error simple_rknn::compute(void* tensor, tensor_format layout, tensor_type type, int convert_float,
+                            std::function<void(void*, uint32_t)> callback) 
 { 
     // Set Input Data
     input i;
-    i.callback;
-    i.tensor;
-    i.layout = data.layout;
-    i.type = data.type;
-    i.convert_float = 0;
-
+    i.layout = layout;
+    i.type = type;
+    i.convert_float = convert_float;
+    i.tensor = tensor;
     i.id = this->id;
     i.batchs = this->batchs;
     i.tensor_size = this->tensor_size;
