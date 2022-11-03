@@ -153,6 +153,7 @@ info_rknn simple_rknn::get_info() const {
 simple_rknn::~simple_rknn() {
     // error ret = (error)rknn_init(&this->id, this->model, model_size, (uint32_t)priority_flag::high);
     rknn_destroy(this->id);
+    free(this->model);
     spdlog::info("destory {}", id);
 }
 
