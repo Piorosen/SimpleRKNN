@@ -59,10 +59,10 @@ class blocking_iterator {
 /**
  * @brief Output iterator specialization
  */
-template <typename T>
-struct std::iterator_traits<msd::blocking_iterator<T>> {
-    using value_type = typename msd::blocking_iterator<T>::value_type;
-    using iterator_category = std::output_iterator_tag;
-};
+// template <typename T>
+// struct std::iterator_traits<msd::blocking_iterator<T>> {
+//     using value_type = typename msd::blocking_iterator<T>::value_type;
+//     using iterator_category = std::output_iterator_tag;
+// };
 
 #endif  // MSD_CHANNEL_BLOCKING_ITERATOR_HPP_
