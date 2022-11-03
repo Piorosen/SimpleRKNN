@@ -6,7 +6,8 @@
 
 > 1. CMake 3.4 ~<br>
 > 2. make<br>
-> 3. RK3399Pro or Asus Tinker Edge R<br>
+> 3. C++ 11<br>
+> 4. RK3399Pro or Asus Tinker Edge R<br>
 
 ## Build
 
