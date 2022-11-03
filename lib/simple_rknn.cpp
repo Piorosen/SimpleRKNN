@@ -98,6 +98,77 @@ error simple_rknn::load_model(const std::string file) {
     return error::success;
 }
     
+info_rknn simple_rknn::get_info() const {
+    info_rknn value;
+    error ret;
+    // input, ouput 텐서 정보 가져옴.
+    rknn_input_output_num io_num;
+    ret = (error)rknn_query(this->id, (rknn_query_cmd)query::in_out_num, &io_num, sizeof(io_num));
+    if (ret != error::success) { 
+        spdlog::error("rknn query fail! ret={}", (int)ret);
+        return value;
+    }
+
+    // 인풋 텐서 정보 가져옴.
+    printf("input tensors:\n");
+    rknn_tensor_attr input_attrs[io_num.n_input];
+    value.input_batch = io_num.n_input;
+    value.output_batch = io_num.n_output;
+
+    memset(input_attrs, 0, sizeof(input_attrs));
+    for (int i = 0; i < io_num.n_input; i++)
+    {
+        input_attrs[i].index = i;
+        ret = (error)rknn_query(this->id, RKNN_QUERY_INPUT_ATTR, &(input_attrs[i]), sizeof(rknn_tensor_attr));
+        if (ret != error::success)
+        {
+            spdlog::error("rknn_query fail! ret={}", (int)ret);
+            return value;
+        }
+        value.input.push_back(*(attribute_tensor*)&input_attrs[i]);
+        printRKNNTensor(&(input_attrs[i]));
+    }
+    value.input_tensor_size = input_attrs[0].size * io_num.n_input;
+    // 출력 텐서 정보 가져옴.
+    printf("output tensors:\n");
+    rknn_tensor_attr output_attrs[io_num.n_output];
+    memset(output_attrs, 0, sizeof(output_attrs));
+    for (int i = 0; i < io_num.n_output; i++)
+    {
+        output_attrs[i].index = i;
+        ret = (error)rknn_query(this->id, RKNN_QUERY_OUTPUT_ATTR, &(output_attrs[i]), sizeof(rknn_tensor_attr));
+        if (ret != error::success)
+        {
+            spdlog::error("rknn_query fail! ret={}", (int)ret);
+            return value;
+        }
+        value.output.push_back(*(attribute_tensor*)&output_attrs[i]);
+        printRKNNTensor(&(output_attrs[i]));
+    }
+    value.output_tensor_size = input_attrs[0].size * io_num.n_output;
+
+    return value;
+}
+
+simple_rknn::~simple_rknn() {
+    // error ret = (error)rknn_init(&this->id, this->model, model_size, (uint32_t)priority_flag::high);
+    rknn_destroy(this->id);
+    spdlog::info("destory {}", id);
+}
+
+/* real inference time (us) */
+uint64_t simple_rknn::get_inference_time() const { 
+    error ret;
+    // input, ouput 텐서 정보 가져옴.
+    rknn_perf_run perf;
+    ret = (error)rknn_query(this->id, (rknn_query_cmd)query::performance_run, &perf, sizeof(rknn_perf_run));
+    if (ret != error::success) { 
+        spdlog::error("rknn query fail! ret={}", (int)ret);
+        return 0;
+    }
+    return perf.run_duration;
+}
+
 error simple_rknn::compute(void* tensor, tensor_format layout, tensor_type type, int convert_float,
                             std::function<void(void*, uint32_t)> callback) 
 { 

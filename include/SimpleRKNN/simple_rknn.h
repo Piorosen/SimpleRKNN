@@ -5,7 +5,7 @@
 #include <tuple>
 
 #include <SimpleRKNN/option.h>  
-
+#include <SimpleRKNN/info_rknn.h>
 
 class simple_rknn
 {
@@ -16,11 +16,16 @@ private:
 
     int batchs, tensor_size;
 public:
+    simple_rknn() {}
+    ~simple_rknn();
     // load rknn with init context 
     // intput, output tenosr info
     error load_model(const std::string file);
 
-    // info_rknn get_info() const;
+    info_rknn get_info() const;
+
+    /* real inference time (us) */
+    uint64_t get_inference_time() const;
     
     error compute(void* tensor, tensor_format layout, tensor_type type, int convert_float = 0,
                             std::function<void(void*, uint32_t)> callback = nullptr);

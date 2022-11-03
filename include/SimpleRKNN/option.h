@@ -122,5 +122,23 @@ typedef struct _input {
 
 } input;
 
+struct attribute_tensor {
+    uint32_t index;                                     /* input parameter, the index of input/output tensor,
+                                                           need set before call rknn_query. */
+
+    uint32_t n_dims;                                    /* the number of dimensions. */
+    uint32_t dims[16];                       /* the dimensions array. */
+    char name[256];                       /* the name of tensor. */
+
+    uint32_t n_elems;                                   /* the number of elements. */
+    uint32_t size;                                      /* the bytes size of tensor. */
+
+    tensor_format fmt;                             /* the data format of tensor. */
+    tensor_type type;                              /* the data type of tensor. */
+    tensor_quantize_type qnt_type;                      /* the quantitative type of tensor. */
+    int8_t fl;                                          /* fractional length for RKNN_TENSOR_QNT_DFP. */
+    uint32_t zp;                                        /* zero point for RKNN_TENSOR_QNT_AFFINE_ASYMMETRIC. */
+    float scale;                                        /* scale for RKNN_TENSOR_QNT_AFFINE_ASYMMETRIC. */
+};
 
 #endif // SIMPLERKNN_LIBRARY_ERROR_IFNO_H
