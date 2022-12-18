@@ -201,6 +201,7 @@ info_rknn simple_rknn::get_info() const {
     }
     value.output_tensor_size = input_attrs[0].size * io_num.n_output;
 
+    this->info = value;
     return value;
 }
 
