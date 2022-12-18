@@ -22,16 +22,18 @@ private:
     int model_size;
 
     int batchs, tensor_size;
-public:
-    simple_rknn() {}
-    ~simple_rknn();
+    info_rknn info;
 
+public:
+    simple_rknn() { info.input_tensor_size = 0; }
+    ~simple_rknn();
     
     // load rknn with init context 
     // intput, output tenosr info
     error load_model(const std::string file);
     
-    unsigned char *load_image(const char *image_path, tensor_format layout)
+    void* load_image(const char *image_path, tensor_format layout);
+    void free_image(void* image);
 
     info_rknn get_info() const;
 

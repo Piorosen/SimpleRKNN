@@ -1,4 +1,5 @@
 #include <spdlog/spdlog.h>
+#include <stb/stb_image.h>
 
 #include <SimpleRKNN/simple_rknn.h>
 #include <rknn_queue.h>
@@ -32,31 +33,38 @@ unsigned char *load_model(const char *filename, int *model_size)
     return model;
 }
 
+void simple_rknn::free_image(void* image){
+    stbi_image_free(image);
+}
 
-unsigned char *simple_rknn::load_image(const char *image_path, tensor_format layout)
+
+void *simple_rknn::load_image(const char *image_path, tensor_format layout)
 {
     int req_height = 0;
     int req_width = 0;
     int req_channel = 0;
+    if (this->info.input_tensor_size == 0) { 
+        throw "error!, not load model";
+    }
 
     switch (layout)
     {
     case tensor_format::nhwc:
-        req_height = dims[2];
-        req_width = dims[1];
-        req_channel = dims[0];
+        req_height = info.input[0].dims[2];
+        req_width = info.input[0].dims[1];
+        req_channel = info.input[0].dims[0];
         break;
     case tensor_format::nchw:
-        req_height = dims[1];
-        req_width = dims[0];
-        req_channel = dims[2];
+        req_height = info.input[0].dims[1];
+        req_width = info.input[0].dims[0];
+        req_channel = info.input[0].dims[2];
         break;
     default:
         printf("meet unsupported layout\n");
         return NULL;
     }
 
-    printf("w=%d,h=%d,c=%d, fmt=%d\n", req_width, req_height, req_channel, layout);
+    printf("req : w=%d,h=%d,c=%d, fmt=%d\n", req_width, req_height, req_channel, layout);
 
     int height = 0;
     int width = 0;
@@ -67,9 +75,10 @@ unsigned char *simple_rknn::load_image(const char *image_path, tensor_format lay
     {
         printf("load image failed!\n");
         return NULL;
-    }
+    }  
+    printf("load : w=%d,h=%d,c=%d, fmt=%d\n", width, height, channel, layout);
 
-    return image_data;
+    return (void*)image_data;
 }
 
 
@@ -140,6 +149,10 @@ error simple_rknn::load_model(const std::string file) {
 }
     
 info_rknn simple_rknn::get_info() const {
+    if (this->info.input_tensor_size != 0){
+        return this->info;
+    }
+
     info_rknn value;
     error ret;
     // input, ouput 텐서 정보 가져옴.
