@@ -7,7 +7,7 @@
 
 #include <SimpleRKNN/simple_rknn.h>
 #include <msd/channel.hpp>
-
+namespace rknn { 
 class rknn_queue { 
 private:
     std::thread loop;
@@ -28,6 +28,6 @@ public:
     void run_loop();
     void close_loop();
 };
-
+}
 
 #endif // SIMPLERKNN_LIBRARY_RKNN_QUEUE_H

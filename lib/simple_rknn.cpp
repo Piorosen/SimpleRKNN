@@ -1,9 +1,10 @@
 #include <spdlog/spdlog.h>
 
 #include <SimpleRKNN/simple_rknn.h>
-#include <SimpleRKNN/rknn_queue.h>
+#include <rknn_queue.h>
 #include <rknn/rknn_api.h>
 
+using namespace rknn;
 
 unsigned char *load_model(const char *filename, int *model_size)
 {
@@ -185,4 +186,12 @@ error simple_rknn::compute(void* tensor, tensor_format layout, tensor_type type,
 
     rknn_queue::instance()->enqueue(i);
     return error::success;
+}
+
+
+void rknn::run_loop() { 
+    rknn_queue::instance()->run_loop();
+}
+void rknn::close_loop() { 
+    rknn_queue::instance()->close_loop();
 }

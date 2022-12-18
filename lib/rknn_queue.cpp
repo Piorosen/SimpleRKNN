@@ -1,13 +1,13 @@
 #include <spdlog/spdlog.h>
-#include <SimpleRKNN/rknn_queue.h>
 #include <rknn/rknn_api.h>
+#include <rknn_queue.h>
 
-void rknn_queue::enqueue(input data)
+void rknn::rknn_queue::enqueue(input data)
 { 
     data >> this->chan;
 }
     
-void rknn_queue::run_loop() { 
+void rknn::rknn_queue::run_loop() { 
     stop_signal = false;
     loop = std::thread([this]() { 
         for (const auto& out : this->chan) { 
@@ -56,6 +56,6 @@ void rknn_queue::run_loop() {
         }
     });
 }
-void rknn_queue::close_loop() {
+void rknn::rknn_queue::close_loop() {
     stop_signal = true;
 }

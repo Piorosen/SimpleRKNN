@@ -7,6 +7,13 @@
 #include <SimpleRKNN/option.h>  
 #include <SimpleRKNN/info_rknn.h>
 
+
+namespace rknn { 
+
+void run_loop();
+void close_loop();
+
+
 class simple_rknn
 {
 private:
@@ -18,6 +25,8 @@ private:
 public:
     simple_rknn() {}
     ~simple_rknn();
+
+    
     // load rknn with init context 
     // intput, output tenosr info
     error load_model(const std::string file);
@@ -31,5 +40,5 @@ public:
                             std::function<void(void*, uint32_t)> callback = nullptr);
 
 };
-
+}
 #endif // SIMPLERKNN_LIBRARY_H

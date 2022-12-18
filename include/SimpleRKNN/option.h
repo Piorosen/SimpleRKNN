@@ -2,6 +2,7 @@
 #define SIMPLERKNN_LIBRARY_ERROR_IFNO_H
 
 #include <functional>
+namespace rknn { 
 
 typedef uint64_t context;
 
@@ -140,5 +141,5 @@ struct attribute_tensor {
     uint32_t zp;                                        /* zero point for RKNN_TENSOR_QNT_AFFINE_ASYMMETRIC. */
     float scale;                                        /* scale for RKNN_TENSOR_QNT_AFFINE_ASYMMETRIC. */
 };
-
+}
 #endif // SIMPLERKNN_LIBRARY_ERROR_IFNO_H

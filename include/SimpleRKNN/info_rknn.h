@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <SimpleRKNN/option.h>
+namespace rknn { 
 
 struct info_rknn
 {
@@ -14,6 +15,6 @@ struct info_rknn
     std::vector<attribute_tensor> input;
     std::vector<attribute_tensor> output;
 };
-
+}
 
 #endif // SIMPLERKNN_LIBRARY_IFNO_RKNN_H

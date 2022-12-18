@@ -16,8 +16,9 @@ endif()
 set(INCLUDE_PATH ${CMAKE_SOURCE_DIR}/include)
 set(MODULE_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/module/include)
 set(MODULE_LIB_PATH ${CMAKE_SOURCE_DIR}/module/lib)
+set(IMPL_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/lib/include)
 
-include_directories(${RKNN_API_PATH} ${RKNN_API_PATH} ${MODULE_INCLUDE_PATH})
+include_directories(${RKNN_API_PATH} ${RKNN_API_PATH} ${MODULE_INCLUDE_PATH} ${IMPL_INCLUDE_PATH})
 
 # rknn api
 set(RKNN_API_PATH ${MODULE_INCLUDE_PATH}/rknn)
