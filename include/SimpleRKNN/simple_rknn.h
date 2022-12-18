@@ -35,7 +35,7 @@ public:
     void* load_image(const char *image_path, tensor_format layout);
     void free_image(void* image);
 
-    info_rknn get_info() const;
+    info_rknn get_info();
 
     /* real inference time (us) */
     uint64_t get_inference_time() const;
