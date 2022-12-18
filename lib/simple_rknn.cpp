@@ -33,6 +33,46 @@ unsigned char *load_model(const char *filename, int *model_size)
 }
 
 
+unsigned char *simple_rknn::load_image(const char *image_path, tensor_format layout)
+{
+    int req_height = 0;
+    int req_width = 0;
+    int req_channel = 0;
+
+    switch (layout)
+    {
+    case tensor_format::nhwc:
+        req_height = dims[2];
+        req_width = dims[1];
+        req_channel = dims[0];
+        break;
+    case tensor_format::nchw:
+        req_height = dims[1];
+        req_width = dims[0];
+        req_channel = dims[2];
+        break;
+    default:
+        printf("meet unsupported layout\n");
+        return NULL;
+    }
+
+    printf("w=%d,h=%d,c=%d, fmt=%d\n", req_width, req_height, req_channel, layout);
+
+    int height = 0;
+    int width = 0;
+    int channel = 0;
+
+    unsigned char *image_data = stbi_load(image_path, &width, &height, &channel, req_channel);
+    if (image_data == NULL)
+    {
+        printf("load image failed!\n");
+        return NULL;
+    }
+
+    return image_data;
+}
+
+
 void printRKNNTensor(rknn_tensor_attr *attr)
 {
     printf("index=%d name=%s n_dims=%d dims=[%d %d %d %d] n_elems=%d size=%d fmt=%d type=%d qnt_type=%d fl=%d zp=%d scale=%f\n",

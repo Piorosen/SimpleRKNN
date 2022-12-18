@@ -30,6 +30,8 @@ public:
     // load rknn with init context 
     // intput, output tenosr info
     error load_model(const std::string file);
+    
+    unsigned char *load_image(const char *image_path, tensor_format layout)
 
     info_rknn get_info() const;
 
