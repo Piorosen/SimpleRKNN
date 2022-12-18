@@ -144,7 +144,7 @@ error simple_rknn::load_model(const std::string file) {
         }
         printRKNNTensor(&(output_attrs[i]));
     }
-    
+
     get_info();
     return error::success;
 }
@@ -236,6 +236,7 @@ error simple_rknn::compute(void* tensor, tensor_format layout, tensor_type type,
     i.id = this->id;
     i.batchs = this->batchs;
     i.tensor_size = this->tensor_size;
+    i.callback = callback;
 
     rknn_queue::instance()->enqueue(i);
     return error::success;
