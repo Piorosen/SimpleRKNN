@@ -144,7 +144,8 @@ error simple_rknn::load_model(const std::string file) {
         }
         printRKNNTensor(&(output_attrs[i]));
     }
-
+    
+    get_info();
     return error::success;
 }
     
