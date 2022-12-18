@@ -64,7 +64,7 @@ void *simple_rknn::load_image(const char *image_path, tensor_format layout)
         return NULL;
     }
 
-    printf("req : w=%d,h=%d,c=%d, fmt=%d\n", req_width, req_height, req_channel, layout);
+    // printf("req : w=%d,h=%d,c=%d, fmt=%d\n", req_width, req_height, req_channel, layout);
 
     int height = 0;
     int width = 0;
@@ -76,7 +76,7 @@ void *simple_rknn::load_image(const char *image_path, tensor_format layout)
         printf("load image failed!\n");
         return NULL;
     }  
-    printf("load : w=%d,h=%d,c=%d, fmt=%d\n", width, height, channel, layout);
+    // printf("load : w=%d,h=%d,c=%d, fmt=%d\n", width, height, channel, layout);
 
     return (void*)image_data;
 }
