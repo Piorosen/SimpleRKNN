@@ -13,6 +13,14 @@ else()
 	set(LIB_ARCH lib)
 endif()
 
+option(RKNN_DEVICE_BUFFER "buffer option" ON)
+
+
+
+if (RKNN_DEVICE_BUFFER)
+	add_definitions(RKNN_DEVICE_BUFFER)
+endif()
+
 set(INCLUDE_PATH ${CMAKE_SOURCE_DIR}/include)
 set(MODULE_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/module/include)
 set(MODULE_LIB_PATH ${CMAKE_SOURCE_DIR}/module/lib)

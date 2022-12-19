@@ -11,7 +11,11 @@ namespace rknn {
 class rknn_queue { 
 private:
     std::thread loop;
+#ifdef RKNN_DEVICE_BUFFER
     msd::channel<input> chan{8}; // buffered
+#else
+    msd::channel<input> chan{0}; // unbuffered
+#endif
     bool stop_signal = false;
 
     rknn_queue(const rknn_queue& oth) = delete;
