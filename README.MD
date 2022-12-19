@@ -22,13 +22,35 @@
 #include <SimpleRKNN/simple_rknn.h>
 
 int main() { 
-    simple_rknn lib;
-    if (lib.load_model("mobile_net.rknn") != error::success) { 
-        std::cout << "error! \n";
-        return 0;        
+    // async compute loop
+    rknn::run_loop();
+    
+    // inference query class
+    rknn::simple_rknn lib;
+    
+    // load model on inference engine 
+    // only read rknn files
+    lib.load_model("mobilenet_v1.rknn");
+    // load image for rknn by stbimage
+    auto image = lib.load_image("dog_224x224.jpg", rknn::tensor_format::nchw);
+    
+    // 30 times, test inference and measure time
+    for (int i = 0; i < 30; i++) { 
+        auto compute = high_resolution_clock::now();
+        // flag are converted from async to sync.
+        bool flag = false;
+        lib.compute(image, rknn::tensor_format::nchw, rknn::tensor_type::uint8, 0, [&lib, &flag, &compute](auto buf, auto size) {
+            cout << (high_resolution_clock::now() - compute).count() << "\n";
+            flag = true;
+        });
+        // wait. When the flag is changed to true.
+        while(!flag);
     }
-
-    lib.compute(tensor_data);
+    
+    lib.free_image(image);
+    
+    rknn::close_loop();
+    
+    return 0;
 }
-
 ```
